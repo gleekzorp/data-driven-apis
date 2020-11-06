@@ -8,8 +8,15 @@ Feature: Display the books in a Table with the correct information
 
   Background:
     Given a catalog with these books:
-      | Image | Title             | Author                | Publisher       |
-      | 0.jpg | Git Pocket Guide  | Richard E. Silverman  | O'Reilly Media  |
+      | Image | Title                                   | Author                | Publisher       |
+	  | 0.jpg | Git Pocket Guide                        | Richard E. Silverman  | O'Reilly Media  |
+	  | 1.jpg | Learning JavaScript Design Patterns     | Addy Osmani           | O'Reilly Media  |
+	  | 2.jpg | Designing Evolvable Web APIs with ASP   | Glenn Block et al     | O'Reilly Media  |
+	  | 3.jpg | Speaking JavaScript                     | Axel Rauschmayer      | O'Reilly Media  |
+	  | 4.jpg | You Don't Know JS                       | Kyle Simpson          | O'Reilly Media  |
+	  | 5.jpg | Programming JavaScript Applications     | Eric Elliot           | O'Reilly Media  |
+	  | 6.jpg | Eloquent JavaScript, Second Edition     | Marijn Haverbeke      | No Starch Press |
+	  | 7.jpg | Understanding ECMAScript 6              | Nicholas C. Zakas     | No Starch Press |
 
   Scenario: Books have an Image, Title, Author and Publisher
     When I open the catalog

@@ -11,6 +11,8 @@ Create a Bookstore Catalog for Shoppers to browse through.
     2. Title
     3. Author
     4. Publisher
+    
+## Technical Design
 
 BookModel:
 
