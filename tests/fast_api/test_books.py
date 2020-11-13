@@ -27,7 +27,7 @@ invalid_schema_examples = zip(FASTAPI_MOCKED_INVALID_BOOKS, invalid_error_messag
 
 
 @pytest.mark.parametrize('book, error_message', invalid_schema_examples)
-def test_validate_book_model_schema_raises_error_with_invalid_body(book, error_message):
+def test_validate_book_model_schema_raises_error_with_invalid_body(book, error_message: str):
     with pytest.raises(ValidationError) as error:
         validate_book_model_schema(book)
 
@@ -35,9 +35,35 @@ def test_validate_book_model_schema_raises_error_with_invalid_body(book, error_m
     assert error_message in error
 
 
-def test_user_enters_an_exact_search():
-    pytest.xfail()
+exact_search_examples = [
+    ("Git Pocket Guide", 1),
+    ("eric elliot", 1),
+    ("O'Reilly Media", 6),
+    ("Carlos Kidman", 0)
+]
 
 
-def test_user_enters_a_fuzzy_search():
-    pytest.xfail()
+@pytest.mark.parametrize('query, result', exact_search_examples)
+def test_user_enters_an_exact_search(query, result):
+    response = requests.get(f'{BASE_URL}/books/search/{query}')
+    assert response.ok
+
+    books = response.json()
+    assert len(books) == result
+
+
+fuzzy_search_examples = [
+    ("javascript", 4),
+    ("a", 8),
+    ("as", 6),
+    ("asf", 0)
+]
+
+
+@pytest.mark.parametrize('query, result', fuzzy_search_examples)
+def test_user_enters_a_fuzzy_search(query, result):
+    response = requests.get(f'{BASE_URL}/books/search/{query}')
+    assert response.ok
+
+    books = response.json()
+    assert len(books) == result
