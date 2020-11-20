@@ -19,3 +19,9 @@
   - Under `app/main.py` click `play` at the bottom of the file
   - See docs at
     - http://0.0.0.0:8000/docs
+
+
+# Homework
+- Get a user that doesn't exist
+- Cannot create a duplicate user
+- Cover the BookStore
