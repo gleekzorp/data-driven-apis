@@ -20,3 +20,10 @@ class User(BaseModel):
     username: str
     password: str = Field(default="")
     books: List[Book]
+
+
+class Token(BaseModel):
+    token: str
+    expires: str
+    status: str
+    result: str

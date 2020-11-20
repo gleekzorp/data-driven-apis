@@ -1,6 +1,9 @@
-import requests
+from typing import Tuple
 
-from bookstore.models.models import User
+import requests
+from requests import Response
+
+from bookstore.models.models import User, Token
 
 ACCOUNT_V1_URL = "https://demoqa.com/Account/v1"
 
@@ -11,3 +14,33 @@ def create_user(username, password) -> User:
     if not response.ok:
         raise ConnectionError(f'Unable to create user: {response.content}')
     return User(**response.json())
+
+
+def generate_token(username, password) -> Token:
+    payload = {'userName': username, 'password': password}
+    response = requests.post(f'{ACCOUNT_V1_URL}/GenerateToken', json=payload)
+    if not response.ok:
+        raise ConnectionError(f'Unable to generate token: {response.content}')
+    return Token(**response.json())
+
+
+def is_authorized(username, password) -> bool:
+    payload = {'userName': username, 'password': password}
+    response = requests.post(f'{ACCOUNT_V1_URL}/Authorized', json=payload)
+    if not response.ok:
+        raise ConnectionError(f'Unable to authorize user: {response.content}')
+    return response.json()
+
+
+def create_authorized_user(username, password) -> Tuple[User, Token]:
+    user = create_user(username, password)
+    token = generate_token(username, password)
+    return user, token
+
+
+def delete_user(user_id, token) -> Response:
+    headers = {'Authorization': f'Bearer {token}'}
+    response = requests.delete(f'{ACCOUNT_V1_URL}/user/{user_id}', headers=headers)
+    if not response.ok:
+        raise ConnectionError(f'Unable to delete user: {response.content}')
+    return response
