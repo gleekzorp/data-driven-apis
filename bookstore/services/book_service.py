@@ -48,3 +48,13 @@ def _add_books_endpoint(user_id, token, isbn_objects) -> Response:
     if response.ok is False:
         raise ConnectionError(f'Unable to add books to user: {response.content}')
     return response
+
+
+def delete_all_books_from_user(user_id, token):
+    headers = {'Authorization': f'Bearer {token}'}
+    params = {'UserId': user_id}
+    response = requests.delete(BOOKS_ENDPOINT, headers=headers, params=params)
+    # response = requests.delete(f'{BOOKS_ENDPOINT}?UserId={user_id}', headers=headers)
+    if not response.ok:
+        raise ConnectionError(f'Unable to delete books: {response.content}')
+    return response

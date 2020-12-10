@@ -26,8 +26,11 @@ def test_add_books_to_user_by_isbns():
     pytest.xfail()
 
 
-def test_delete_all_books_from_user():
-    pytest.xfail()
+def test_delete_all_books_from_user(new_authorized_user, mocked_books):
+    user, token = new_authorized_user
+    book_service.add_books_to_user(user.userID, token.token, mocked_books)
+    response = book_service.delete_all_books_from_user(user.userID, token.token)
+    assert response.ok
 
 
 def test_delete_single_book_from_user():
