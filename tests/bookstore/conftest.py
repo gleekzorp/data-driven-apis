@@ -2,9 +2,28 @@ from typing import Dict
 
 import pytest
 
+from bookstore.actions.alerts import AlertActions
+from bookstore.actions.profile import ProfileActions
 from bookstore.models.models import Book
 from bookstore.mocks import MOCKED_BOOKS
 from bookstore.services import account_service, book_service
+
+
+@pytest.fixture
+def alert(py):
+    return AlertActions(py)
+
+
+@pytest.fixture
+def profile(py):
+    return ProfileActions(py)
+
+
+@pytest.fixture
+def user_with_books(new_authorized_user, mocked_books):
+    user, token = new_authorized_user
+    book_service.add_books_to_user(user.userID, token.token, mocked_books)
+    return user, token
 
 
 @pytest.fixture
